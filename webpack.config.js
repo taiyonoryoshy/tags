@@ -18,8 +18,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('main.css', {allChunks: true})
+    new ExtractTextPlugin('main.css', {allChunks: true}),
+    new webpack.ProvidePlugin({
+      $: "jquery"
+    })
   ],
+
   devServer: {
     contentBase: __dirname
   }

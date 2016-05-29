@@ -1,8 +1,9 @@
 'use strict';
 
-window.onload = function () {
-  var App = require('./App');
+$(function () {
+  require('jquery-ui');
 
-  App.init();
-};
+  var tags = require('./tags');
 
+  tags.init();
+});
