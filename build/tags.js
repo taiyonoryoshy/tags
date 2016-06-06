@@ -5,16 +5,18 @@ require('./styles/main.styl');
 module.exports = (function () {
   return {
     init: function () {
-      var template = require('./templates/main.jade');
+      var template = require('./templates/main.jade'),
+        autocomplete = require('./autocomplete');
 
       $('body').html(template());
 
       this.trigger();
       this.event();
+
+      autocomplete.init();
     },
     trigger: function () {
-      var $input = $('input.tag-input'),
-        $link_remove = $('.tag-remove a');
+      var $input = $('input.tag-input');
 
       $input.on('keydown', function (e) {
         if (e.which === $.ui.keyCode.ENTER) {
@@ -28,7 +30,7 @@ module.exports = (function () {
         }
       });
 
-      $link_remove.on('click', function (e) {
+      $('.tags').on('click', '.tag-remove a', function (e) {
         $(this).trigger({
           type: 'remove_tag.tags',
           tags_tag: $(this).closest('.tag')
