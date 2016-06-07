@@ -13,21 +13,26 @@ module.exports = (function () {
     'c#'
   ];
 
-  var autocomplete = '.tag-input';
-  var tags = require('./tags');
+  var input = 'input.tag-input';
 
   return {
     init: function () {
-      $(autocomplete).autocomplete({
-        source: available_tags
+      $(input).autocomplete({
+        source: available_tags,
+        open: function (e, ui) {
+          $(this).data('autocomplete-open', true);
+        },
+        close: function (e, ui) {
+          $(this).data('autocomplete-open', false);
+        }
       });
 
       this.trigger();
     },
     trigger: function () {
-      $(autocomplete).on('autocompleteselect', function (e, ui) {
-        console.log('autocompleteselect');
-        tags.trigger('create_tag.tags');
+      var $input = $(input);
+      $input.on('autocompleteselect', function (e, ui) {
+        $(this).trigger('create_tag.tags', {value: ui.item.label});
         return false;
       });
     }
