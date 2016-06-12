@@ -69,22 +69,21 @@ module.exports = (function () {
       var template = require('./templates/tag.jade');
 
       if (this.allow_new) {
-        $(template({value: value})).appendTo('.tag-cont');
-        $input.val('');
+        this._create(template, value);
       } else {
         $.ajax(url, {
             async: false,
             data: {
               label: value,
-              count: that.get_count_terms_by_label(value)
+              count: that._get_count_terms_by_label(value)
             },
             success: function (data, text_status, jq_xhr) {
               if ($.parseJSON(data)) {
-                $(template({value: value})).appendTo('.tag-cont');
-                $input.val('');
+                that._create(template, value);
               } else {
                 console.log(text_denied);
               }
+              $input.autocomplete('close');
             }
           }
         );
@@ -95,7 +94,7 @@ module.exports = (function () {
         $(this).remove();
       });
     },
-    get_count_terms_by_label: function (label) {
+    _get_count_terms_by_label: function (label) {
       var $tag_text = $(tag_text),
         count = 0;
 
@@ -105,6 +104,10 @@ module.exports = (function () {
         }
       });
       return count;
+    },
+    _create: function (template, value) {
+      $(template({value: value})).appendTo('.tag-cont');
+      $input.val('');
     }
   };
 })();
