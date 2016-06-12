@@ -25,8 +25,19 @@ module.exports = {
       $: "jquery"
     })
   ],
-
   devServer: {
-    contentBase: __dirname
+    host: 'localhost',
+    port: 8080,
+    contentBase: path.resolve(__dirname, 'backend'),
+    proxy: [
+      {
+        path: '*/index.php',
+        target: 'http://localhost:80'
+      },
+      {
+        path: '*/allow.php',
+        target: 'http://localhost:80'
+      }
+    ]
   }
 };

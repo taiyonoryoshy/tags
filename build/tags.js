@@ -5,14 +5,21 @@ require('./styles/main.styl');
 module.exports = (function () {
   var input = 'input.tag-input',
     tags = '.tags',
-    tag = '.tag';
+    tag = '.tag',
+    tag_text = '.tag span',
+    url = 'allow.php',
+    text_denied = 'Tag create denied',
+    $input;
 
   return {
+    allow_new: true,
     init: function () {
       var template = require('./templates/main.jade'),
         autocomplete = require('./autocomplete');
 
       $('body').html(template());
+
+      $input = $(input);
 
       this.trigger();
       this.event();
@@ -20,7 +27,7 @@ module.exports = (function () {
       autocomplete.init();
     },
     trigger: function () {
-      var $input = $(input);
+      var that = this;
 
       $input.on('keydown', function (e) {
         if (e.which === $.ui.keyCode.ENTER) {
@@ -46,28 +53,58 @@ module.exports = (function () {
     },
     event: function () {
       var $tags = $(tags),
-        $input = $(input),
         that = this;
 
       $tags.on({
         'create_tag.tags': function (e, data) {
-          that.create_tag($input, data.value);
+          that.create_tag(data.value);
         },
         'remove_tag.tags': function (e) {
           that.remove_tag(e.tags_tag);
         }
       });
     },
-    create_tag: function ($input, value) {
+    create_tag: function (value) {
+      var that = this;
       var template = require('./templates/tag.jade');
 
-      $(template({value: value})).appendTo('.tag-cont');
-      $input.val('');
+      if (this.allow_new) {
+        $(template({value: value})).appendTo('.tag-cont');
+        $input.val('');
+      } else {
+        $.ajax(url, {
+            async: false,
+            data: {
+              label: value,
+              count: that.get_count_terms_by_label(value)
+            },
+            success: function (data, text_status, jq_xhr) {
+              if ($.parseJSON(data)) {
+                $(template({value: value})).appendTo('.tag-cont');
+                $input.val('');
+              } else {
+                console.log(text_denied);
+              }
+            }
+          }
+        );
+      }
     },
     remove_tag: function ($tag) {
       $tag.hide('blind', {direction: 'left'}, 'normal', function () {
         $(this).remove();
       });
+    },
+    get_count_terms_by_label: function (label) {
+      var $tag_text = $(tag_text),
+        count = 0;
+
+      $tag_text.each(function (i, el) {
+        if ($(el).text() === label) {
+          count++;
+        }
+      });
+      return count;
     }
   };
 })();

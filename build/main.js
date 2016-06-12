@@ -6,6 +6,8 @@ $(function () {
 
   var tags = require('./tags');
 
+  tags.allow_new = false;
+
   tags.init();
 
 
