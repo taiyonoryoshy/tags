@@ -1,16 +1,16 @@
 'use strict';
 
 module.exports = (function () {
-  var input = 'input.tag-input',
-    url = 'index.php',
+  var url = 'index.php',
     dropdown = 'ul.ui-autocomplete',
     $input;
 
   return {
+    input: null,
     init: function () {
       var tags = require('./tags');
 
-      $input = $(input);
+      $input = $(this.input);
 
       $input.autocomplete({
         source: function (request, response) {

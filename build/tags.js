@@ -1,25 +1,25 @@
 'use strict';
 
-require('./styles/main.styl');
+require('./styles/tags.styl');
 
 module.exports = (function () {
-  var input = 'input.tag-input',
-    tags = '.tags',
+  var tags = '.tags',
     tag = '.tag',
     tag_text = '.tag span',
     url = 'allow.php',
-    text_denied = 'Tag create denied',
     $input;
 
   return {
-    allow_new: true,
+    allow_new: null,
+    input: null,
+    popup: null,
     init: function () {
-      var template = require('./templates/main.jade'),
+      var template = require('./templates/tags.jade'),
         autocomplete = require('./autocomplete');
 
       $('body').html(template());
 
-      $input = $(input);
+      $input = $(this.input);
 
       this.trigger();
       this.event();
@@ -35,7 +35,7 @@ module.exports = (function () {
             $(this).trigger('create_tag.tags', {value: $(this).val()});
           }
         }
-        if (e.which === $.ui.keyCode.BACKSPACE && $(this).val() === '') {
+        else if (e.which === $.ui.keyCode.BACKSPACE && $(this).val() === '') {
           $(this).trigger({
             type: 'remove_tag.tags',
             tags_tag: $(tag).last()
@@ -63,6 +63,15 @@ module.exports = (function () {
           that.remove_tag(e.tags_tag);
         }
       });
+
+      $input.on('keydown', function (e) {
+        if (e.which !== $.ui.keyCode.ENTER) {
+          $(that.popup).fadeOut();
+        }
+      });
+      $(document).on('mousemove', function (e) {
+        $(that.popup).fadeOut();
+      });
     },
     create_tag: function (value) {
       var that = this;
@@ -78,10 +87,13 @@ module.exports = (function () {
               count: that._get_count_terms_by_label(value)
             },
             success: function (data, text_status, jq_xhr) {
+              var popup;
+
               if ($.parseJSON(data)) {
                 that._create(template, value);
               } else {
-                console.log(text_denied);
+                popup = require('./popup');
+                popup.init();
               }
               $input.autocomplete('close');
             }
