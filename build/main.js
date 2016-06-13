@@ -4,7 +4,7 @@ $(function () {
   require('jquery-ui');
   require('jquery-ui/themes/base/jquery-ui.css');
 
-  var allow_new = false,
+  var allow_new = true,
     input = 'input.tag-input',
     popup_denied = '.tags-popup-denied',
     popup_no_find = '.tags-popup-no-find';

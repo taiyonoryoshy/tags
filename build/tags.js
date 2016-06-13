@@ -14,7 +14,8 @@ module.exports = (function () {
     popup_no_find: null,
     init: function () {
       var template = require('./templates/tags.jade'),
-        autocomplete = require('./autocomplete');
+        autocomplete = require('./autocomplete'),
+        sortable = require('./sortable');
 
       require('./styles/tags.styl');
 
@@ -26,6 +27,8 @@ module.exports = (function () {
       this.event();
 
       autocomplete.init();
+
+      sortable.init();
     },
     trigger: function () {
       var that = this;
