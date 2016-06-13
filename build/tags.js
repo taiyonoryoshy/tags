@@ -49,7 +49,7 @@ module.exports = (function () {
 
       $(tags).on('click', '.tag-remove a', function (e) {
         $(this).trigger({
-          type: 'remove_tag.tagssdfsdf',
+          type: 'remove_tag.tags',
           tags_tag: $(this).closest(tag)
         });
         return false;
