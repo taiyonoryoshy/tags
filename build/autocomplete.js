@@ -7,8 +7,10 @@ module.exports = (function () {
 
   return {
     input: null,
+    allow_new: null,
     init: function () {
-      var tags = require('./tags');
+      var tags = require('./tags'),
+        that = this;
 
       $input = $(this.input);
 
@@ -21,7 +23,14 @@ module.exports = (function () {
               count: tags._get_count_terms_by_label(request.term)
             },
             function (data, text_status, jq_xhr) {
-              response($.parseJSON(data));
+              var popup;
+
+              data = $.parseJSON(data);
+              if (!that.allow_new && !data.length) {
+                popup = require('./popup');
+                popup.no_find();
+              }
+              response(data);
             });
         },
         select: function (e, ui) {

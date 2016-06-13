@@ -12,7 +12,8 @@ module.exports = (function () {
   return {
     allow_new: null,
     input: null,
-    popup: null,
+    popup_denied: null,
+    popup_no_find: null,
     init: function () {
       var template = require('./templates/tags.jade'),
         autocomplete = require('./autocomplete');
@@ -66,11 +67,13 @@ module.exports = (function () {
 
       $input.on('keydown', function (e) {
         if (e.which !== $.ui.keyCode.ENTER) {
-          $(that.popup).fadeOut();
+          $(that.popup_denied).fadeOut();
+          $(that.popup_no_find).fadeOut();
         }
       });
       $(document).on('mousemove', function (e) {
-        $(that.popup).fadeOut();
+        $(that.popup_denied).fadeOut();
+        $(that.popup_no_find).fadeOut();
       });
     },
     create_tag: function (value) {
@@ -93,7 +96,7 @@ module.exports = (function () {
                 that._create(template, value);
               } else {
                 popup = require('./popup');
-                popup.init();
+                popup.denied();
               }
               $input.autocomplete('close');
             }

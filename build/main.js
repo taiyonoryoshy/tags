@@ -6,7 +6,8 @@ $(function () {
 
   var allow_new = false,
     input = 'input.tag-input',
-    popup_selector = '.tags-popup';
+    popup_denied = '.tags-popup-denied',
+    popup_no_find = '.tags-popup-no-find';
 
 
   var tags = require('./tags');
@@ -15,10 +16,13 @@ $(function () {
 
   tags.allow_new = allow_new;
   tags.input = input;
-  tags.popup = popup_selector;
+  tags.popup_denied = popup_denied;
+  tags.popup_no_find = popup_no_find;
   autocomplete.input = input;
+  autocomplete.allow_new = allow_new;
   popup.input = input;
-  popup.popup = popup_selector;
+  popup.popup_denied = popup_denied;
+  popup.popup_no_find = popup_no_find;
 
   tags.init();
 

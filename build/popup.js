@@ -1,21 +1,23 @@
 'use strict';
 
-require('./styles/popup.styl');
 
 module.exports = (function () {
   return {
     input: null,
-    popup: null,
-    init: function () {
-      var template = require('./templates/popup.jade');
+    popup_denied: null,
+    popup_no_find: null,
+    denied: function () {
+      var template = require('./templates/popup_denied.jade'),
+        that = this,
+        $popup;
+
+      require('./styles/popup_denied.styl');
 
       $('body').append(template());
 
-      var $popup = $(this.popup);
+      $popup = $(this.popup);
 
       $popup.fadeIn();
-
-      var that = this;
 
       $popup.position({
         my: 'left+10 top+10',
@@ -23,6 +25,25 @@ module.exports = (function () {
         of: that.input
       });
 
+    },
+    no_find: function () {
+      var template = require('./templates/popup_no_find.jade'),
+        that = this,
+        $popup;
+
+      require('./styles/popup_no_find.styl');
+
+      $('body').append(template());
+
+      $popup = $(this.popup_no_find);
+
+      $popup.fadeIn();
+
+      $popup.position({
+        my: 'left+10 top+10',
+        at: 'right bottom',
+        of: that.input
+      });
     }
   };
 })();
