@@ -35,7 +35,7 @@ module.exports = (function () {
 
       $input.on('keydown', function (e) {
         if (e.which === $.ui.keyCode.ENTER) {
-          if (!$input.data('autocomplete-open')) {
+          if (!$input.data('autocomplete-open') && $input.val() !== '') {
             $(this).trigger('create_tag.tags', {value: $(this).val()});
           }
         }
