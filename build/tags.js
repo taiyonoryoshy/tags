@@ -1,7 +1,5 @@
 'use strict';
 
-require('./styles/tags.styl');
-
 module.exports = (function () {
   var tags = '.tags',
     tag = '.tag',
@@ -17,6 +15,8 @@ module.exports = (function () {
     init: function () {
       var template = require('./templates/tags.jade'),
         autocomplete = require('./autocomplete');
+
+      require('./styles/tags.styl');
 
       $('body').html(template());
 
