@@ -8,7 +8,10 @@ module.exports = (function () {
     init: function () {
       $tag_cont = $(tag_cont);
 
-      $tag_cont.sortable().disableSelection();
+      $tag_cont.sortable({
+        revert: true,
+        tolirance: 'pointer',
+      }).disableSelection();
     }
   };
 
