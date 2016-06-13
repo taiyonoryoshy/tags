@@ -69,11 +69,13 @@ module.exports = (function () {
         if (e.which !== $.ui.keyCode.ENTER) {
           $(that.popup_denied).fadeOut();
           $(that.popup_no_find).fadeOut();
+          $input.removeData('popup-denied-open');
         }
       });
       $(document).on('mousemove', function (e) {
         $(that.popup_denied).fadeOut();
         $(that.popup_no_find).fadeOut();
+        $input.removeData('popup-denied-open');
       });
     },
     create_tag: function (value) {

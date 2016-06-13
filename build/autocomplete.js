@@ -26,7 +26,8 @@ module.exports = (function () {
               var popup;
 
               data = $.parseJSON(data);
-              if (!that.allow_new && !data.length) {
+
+              if (!that.allow_new && data.length === 0 && !$input.data('popup-denied-open')) {
                 popup = require('./popup');
                 popup.no_find();
               }
